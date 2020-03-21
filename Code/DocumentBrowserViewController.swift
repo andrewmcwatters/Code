@@ -32,14 +32,33 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     // MARK: UIDocumentBrowserViewControllerDelegate
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
-        let newDocumentURL: URL? = nil
+            
+        let doc = // Create a new UIDocument...
+        let url = // Get a temporary URL...
         
-        // Set the URL for the new document here. Optionally, you can present a template chooser before calling the importHandler.
-        // Make sure the importHandler is always called, even if the user cancels the creation request.
-        if newDocumentURL != nil {
-            importHandler(newDocumentURL, .move)
-        } else {
-            importHandler(nil, .none)
+        // Create a new document in a temporary location
+        doc.save(to: url, for: .forCreating) { (saveSuccess) in
+            
+            // Make sure the document saved successfully
+            guard saveSuccess else {
+                // Cancel document creation
+                importHandler(nil, .none)
+                return
+            }
+            
+            // Close the document.
+            doc.close(completionHandler: { (closeSuccess) in
+                
+                // Make sure the document closed successfully
+                guard closeSuccess else {
+                    // Cancel document creation
+                    importHandler(nil, .none)
+                    return
+                }
+                
+                // Pass the document's temporary URL to the import handler.
+                importHandler(url, .move)
+            })
         }
     }
     
