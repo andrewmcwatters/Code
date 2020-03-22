@@ -11,17 +11,18 @@ import SwiftUI
 struct DocumentView: View {
     var document: UIDocument
     var dismiss: () -> Void
+    @State private var text: String = ""
 
     var body: some View {
-        VStack {
-            HStack {
-                Text("File Name")
-                    .foregroundColor(.secondary)
-
-                Text(document.fileURL.lastPathComponent)
+        NavigationView {
+            VStack {
+                TextField("", text: $text)
             }
-
-            Button("Done", action: dismiss)
+            .navigationBarTitle(
+                Text(document.fileURL.lastPathComponent),
+                displayMode: .inline
+            )
+            .navigationBarItems(trailing: Button("Done", action: dismiss))
         }
     }
 }
