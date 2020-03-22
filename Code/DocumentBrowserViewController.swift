@@ -22,6 +22,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         // Update the style of the UIDocumentBrowserViewController
         // browserUserInterfaceStyle = .dark
         // view.tintColor = .white
+        shouldShowFileExtensions = true
         
         // Specify the allowed content types of your application via the Info.plist.
         
