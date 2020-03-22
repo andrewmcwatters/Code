@@ -10,6 +10,8 @@ import UIKit
 
 class Document: UIDocument {
     
+    public var text: String = ""
+
     override init(fileURL url: URL) {
         super.init(fileURL: url)
     }
@@ -22,12 +24,11 @@ class Document: UIDocument {
     }
     
     override func contents(forType typeName: String) throws -> Any {
-        // Encode your document with an instance of NSData or NSFileWrapper
-        return Data()
+        return text.data(using: .utf8) as Any
     }
     
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        // Load your document from contents
+        text = String(data: contents as! Data, encoding: .utf8)!
     }
 }
 
